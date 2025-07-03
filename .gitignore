@@ -1,1 +1,27 @@
-run/
+# === Build y artefactos ===
+/build/
+/run/
+.gradle/
+
+# === Configuración de IDEs ===
+.idea/
+*.iml
+.vscode/
+
+# === Archivos temporales y del sistema ===
+*.log
+*.tmp
+*.bak
+*.swp
+.DS_Store
+Thumbs.db
+
+# === Java/Gradle Wrapper ===
+!gradle/
+!gradlew
+!gradlew.bat
+!build.gradle
+!settings.gradle
+
+# === Código fuente ===
+!src/

@@ -11,7 +11,6 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import zeru.iin.IIN;
 import zeru.iin.managers.ArchiveManager;
 import zeru.iin.managers.PlayerStats;
 

@@ -7,9 +7,8 @@ group = 'zeru'
 version = '1.0'
 
 jar {
-    archiveBaseName.set("IIN") // Nombre base del archivo .jar
-    archiveVersion.set(version)     // Usa la versión definida arriba
-    archiveClassifier.set("")        // Opcional: elimina el "plain" del nombre si aparece
+    archiveBaseName.set("IIN")
+    archiveClassifier.set("")
 }
 
 
