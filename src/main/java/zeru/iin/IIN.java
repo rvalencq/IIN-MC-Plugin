@@ -4,6 +4,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import zeru.iin.DragonFight.CustomDragonSpawn;
+import zeru.iin.DragonFight.DragonFightEvents;
+import zeru.iin.DragonFight.DragonImmunityHandler;
+import zeru.iin.DragonFight.mobsLogic.CustomMobsDrops;
 import zeru.iin.commands.CustomItemCommand;
 import zeru.iin.commands.MaintenanceMode;
 import zeru.iin.commands.MinedCommand;
@@ -16,10 +20,14 @@ import zeru.iin.managers.ArchiveManager;
 public final class IIN extends JavaPlugin {
     private ArchiveManager archiveManager;
     private boolean maintenanceMode = false;
+    private static IIN plugin;
+
+
 
     @Override
     public void onEnable() {
         // Plugin startup logic
+        plugin = this;
         // Plugin Folder Creator
         Bukkit.getLogger().info("Tiempo guardado correctamente");
 
@@ -40,6 +48,13 @@ public final class IIN extends JavaPlugin {
         registerCraft.registerAll();
         Bukkit.getPluginManager().registerEvents(new GeneralEvents(this, archiveManager), this);
         Bukkit.getPluginManager().registerEvents(new Mace3x3Event(this, creator), this);
+
+        // Dragon Events
+        Bukkit.getPluginManager().registerEvents(new DragonFightEvents(), this);
+        Bukkit.getPluginManager().registerEvents(new CustomDragonSpawn(), this);
+        Bukkit.getPluginManager().registerEvents(new DragonImmunityHandler(), this);
+        Bukkit.getPluginManager().registerEvents(new CustomMobsDrops(this), this);
+
 
         // Commands & TabCompleter
         getCommand("played").setExecutor(playedCommand);
@@ -77,7 +92,9 @@ public final class IIN extends JavaPlugin {
         }
         archiveManager.saveFile();
     }
-
+    public static IIN getPlugin() {
+        return plugin;
+    }
     public boolean isMaintenanceMode() {
         return maintenanceMode;
     }
