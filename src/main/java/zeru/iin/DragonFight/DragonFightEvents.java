@@ -5,15 +5,10 @@ import org.bukkit.boss.DragonBattle;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EnderDragonChangePhaseEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
-import zeru.iin.IIN;
+import zeru.iin.DragonFight.mobsLogic.CustomMobSpawner;
+import zeru.iin.DragonFight.mobsLogic.CustomMobs;
 
 public class DragonFightEvents implements Listener {
     @EventHandler
@@ -36,7 +31,26 @@ public class DragonFightEvents implements Listener {
         World world = location.getWorld();
         world.strikeLightning(location);
 
-        // Player punishment
-        DragonFightUtils.playerPunishment(player);
+        // Punishment
+        DragonFightUtils.crystalBreakPunishment();
+    }
+
+    @EventHandler
+    public void onPhaseChange(EnderDragonChangePhaseEvent event) {
+        EnderDragon.Phase newPhase = event.getNewPhase();
+        if (newPhase == EnderDragon.Phase.LAND_ON_PORTAL) {
+            CustomMobSpawner endBrute = CustomMobs.createEndBrute(15, 3);
+            endBrute.spawn();
+            // Bukkit.broadcastMessage("LAND_ON_PORTAL");
+        } else if (newPhase == EnderDragon.Phase.LEAVE_PORTAL) {
+            CustomMobSpawner endGhast = CustomMobs.createEndGhast(25, 5);
+            DragonFightUtils.blindnessAllPlayers();
+            // Bukkit.broadcastMessage("LEAVE_PORTAL");
+            endGhast.spawn();
+        } else if (newPhase == EnderDragon.Phase.HOVER) {
+            DragonFightUtils.blindnessAllPlayers();
+            CustomMobSpawner endVex = CustomMobs.createEndVex(15, 3);
+            endVex.spawn();
+        }
     }
 }

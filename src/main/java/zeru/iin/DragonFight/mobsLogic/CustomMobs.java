@@ -128,4 +128,30 @@ public class CustomMobs {
                 }
         );
     }
+    public static CustomMobSpawner createEndBrute(int maxTotal, int perPlayer) {
+        return new CustomMobSpawner(
+                EntityType.PIGLIN_BRUTE,
+                MobSpawnType.GROUND,
+                "endBrute",
+                maxTotal,
+                perPlayer,
+                35,
+                25,
+                mob -> {
+                    mob.setCustomName("§0§lEnder Brute");
+                    mob.setCustomNameVisible(true);
+                    mob.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH, 120*20, 1, false, false));
+                    mob.getEquipment().setHelmet(new ItemStack(Material.NETHERITE_HELMET));
+                    mob.getEquipment().setHelmetDropChance(0f);
+                    mob.getEquipment().setChestplate(new ItemStack(Material.NETHERITE_CHESTPLATE));
+                    mob.getEquipment().setChestplateDropChance(0f);
+                    mob.getEquipment().setLeggings(new ItemStack(Material.NETHERITE_LEGGINGS));
+                    mob.getEquipment().setLeggingsDropChance(0f);
+                    mob.getEquipment().setBoots(new ItemStack(Material.NETHERITE_BOOTS));
+                    mob.getEquipment().setBootsDropChance(0f);
+                    mob.getEquipment().setItemInMainHand(new ItemStack(Material.NETHERITE_AXE));
+                    mob.getEquipment().setItemInMainHandDropChance(0f);
+                }
+        );
+    }
 }

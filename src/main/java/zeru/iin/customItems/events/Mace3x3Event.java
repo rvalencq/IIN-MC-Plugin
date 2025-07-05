@@ -19,6 +19,7 @@ import zeru.iin.IIN;
 import zeru.iin.customItems.CustomItemCreator;
 import zeru.iin.customItems.CustomItemType;
 
+import java.util.HashMap;
 import java.util.Random;
 import java.util.Set;
 
@@ -31,7 +32,6 @@ public class Mace3x3Event implements Listener {
     }
 
     // Craft
-
     @EventHandler
     public void onPrepareCraft(PrepareItemCraftEvent event) {
         CraftingInventory inv = event.getInventory();
@@ -50,8 +50,8 @@ public class Mace3x3Event implements Listener {
                         is(matrix[7], Material.NETHERITE_BLOCK, 1) &&
                         is(matrix[8], Material.OXIDIZED_COPPER, 32);
 
-        if (!correct) {
-            inv.setResult(null);
+        if (correct) {
+            inv.setResult(creator.createItem(CustomItemType.MACE_3X3));
         }
     }
 
@@ -61,6 +61,9 @@ public class Mace3x3Event implements Listener {
         ItemStack[] matrix = inv.getMatrix();
 
         if (matrix.length != 9) return;
+        if (matrix[4] == null || matrix[4].getType() != Material.NETHERITE_PICKAXE) {
+            return;
+        }
 
         boolean correct =
                 is(matrix[0], Material.GOLD_BLOCK, 32) &&
@@ -102,7 +105,6 @@ public class Mace3x3Event implements Listener {
     private boolean is(ItemStack item, Material expected, int amount) {
         return item != null && item.getType() == expected && item.getAmount() >= amount;
     }
-
 
     /* Sin Uso (Quien sabe cuando lo complete)
     private static final Map<Material, Float> HARDNESS = Map.ofEntries(

@@ -6,7 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import zeru.iin.DragonFight.CustomDragonSpawn;
 import zeru.iin.DragonFight.DragonFightEvents;
-import zeru.iin.DragonFight.DragonImmunityHandler;
+import zeru.iin.DragonFight.DragonDamageHandler;
 import zeru.iin.DragonFight.mobsLogic.CustomMobsDrops;
 import zeru.iin.commands.CustomItemCommand;
 import zeru.iin.commands.MaintenanceMode;
@@ -51,8 +51,8 @@ public final class IIN extends JavaPlugin {
 
         // Dragon Events
         Bukkit.getPluginManager().registerEvents(new DragonFightEvents(), this);
-        Bukkit.getPluginManager().registerEvents(new CustomDragonSpawn(), this);
-        Bukkit.getPluginManager().registerEvents(new DragonImmunityHandler(), this);
+        Bukkit.getPluginManager().registerEvents(new CustomDragonSpawn(this), this);
+        Bukkit.getPluginManager().registerEvents(new DragonDamageHandler(), this);
         Bukkit.getPluginManager().registerEvents(new CustomMobsDrops(this), this);
 
 

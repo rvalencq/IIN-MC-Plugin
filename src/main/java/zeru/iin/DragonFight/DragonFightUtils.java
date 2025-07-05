@@ -1,5 +1,8 @@
 package zeru.iin.DragonFight;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -10,7 +13,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 import zeru.iin.DragonFight.mobsLogic.CustomMobSpawner;
 import zeru.iin.DragonFight.mobsLogic.CustomMobs;
-import zeru.iin.DragonFight.mobsLogic.MobSpawnType;
 
 public class DragonFightUtils {
     public static void throwFireball(Location objective) {
@@ -31,32 +33,31 @@ public class DragonFightUtils {
         );
     }
 
-    public static void playerPunishment(Player player) {
-        player.sendMessage("§8Has sido cegado por romper un cristal del End...");
-        player.addPotionEffect(new PotionEffect(
-                PotionEffectType.BLINDNESS,
-                60, // TICKS
-                0,
-                false,
-                false
-        ));
-        throwFireball(player.getLocation());
-        spawnMobs();
+    public static void crystalBreakPunishment() {
+        Bukkit.broadcast(Component.text("Has sido cegado por romper un cristal del End...").color(NamedTextColor.DARK_GRAY).decorate(TextDecoration.BOLD));
+        blindnessAllPlayers();
+        spawnMobsWhenCrystalBreak();
     }
 
+    public static void blindnessAllPlayers() {
+        World theEnd = Bukkit.getWorld("world_the_end");
+        for (Player player : theEnd.getPlayers()) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10 * 20, 0, false, false));
+        }
+    }
 
-    public static void spawnMobs() {
-        CustomMobSpawner endBlaze = CustomMobs.createEndBlaze(30, 5);
-        CustomMobSpawner endCreeper = CustomMobs.createEndCreeper(15, 5);
-        CustomMobSpawner endGhast = CustomMobs.createEndGhast(30, 5);
-        CustomMobSpawner endSkeleton = CustomMobs.createEndSkeleton(30, 10);
-        CustomMobSpawner endVex = CustomMobs.createEndVex(30, 3);
-        endBlaze.spawn();
+    public static void spawnMobsWhenCrystalBreak() {
+        CustomMobSpawner endCreeper = CustomMobs.createEndCreeper(30, 5);
+        CustomMobSpawner endBlaze = CustomMobs.createEndBlaze(30, 6);
+        CustomMobSpawner endSkeleton = CustomMobs.createEndSkeleton(40, 8);
+
         endCreeper.spawn();
-        endGhast.spawn();
+        endBlaze.spawn();
         endSkeleton.spawn();
-        endVex.spawn();
     }
+
+
+
     public boolean allCrystalBreak(World end) {
         return end.getEntitiesByClass(EnderCrystal.class).isEmpty();
     }

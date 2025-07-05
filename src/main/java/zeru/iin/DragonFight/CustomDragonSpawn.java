@@ -1,19 +1,35 @@
 package zeru.iin.DragonFight;
 
+import com.destroystokyo.paper.event.entity.EntityAddToWorldEvent;
+import org.bukkit.Bukkit;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.metadata.FixedMetadataValue;
+import zeru.iin.IIN;
 
 public class CustomDragonSpawn implements Listener {
+    private final IIN plugin;
+    public CustomDragonSpawn(IIN plugin) {
+        this.plugin = plugin;
+    }
+
     @EventHandler
-    public void onDragonSpawn(CreatureSpawnEvent event) {
+    public void onDragonSpawn(EntitySpawnEvent event) {
         if (event.getEntityType() == EntityType.ENDER_DRAGON) {
             EnderDragon dragon = (EnderDragon) event.getEntity();
-            dragon.setMaxHealth(1000.0); // Default = 200.0
-            dragon.setHealth(600.0);
             dragon.setCustomName("§5Ascended Ender Dragon");
+            dragon.getAttribute(Attribute.MAX_HEALTH).setBaseValue(1500.0);
+            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                if (dragon.isValid()) {
+                    double maxHealth = dragon.getAttribute(Attribute.MAX_HEALTH).getValue();
+                    dragon.heal(maxHealth);
+                }
+            }, 1L);
         }
     }
 }
