@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'zeru'
-version = '1.5.1'
+version = '1.2'
 
 jar {
     archiveBaseName.set("IIN")

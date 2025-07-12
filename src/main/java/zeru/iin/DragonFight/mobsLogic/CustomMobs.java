@@ -63,7 +63,7 @@ public class CustomMobs {
                     mob.setCustomNameVisible(true);
                     mob.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 15*20, 0, false, false));
                     mob.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 60*20, 0, false, false));
-                    mob.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, 60*20, 1, false, false));
+                    mob.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, 60*20, 2, false, false));
                     Creeper creeper = (Creeper) mob;
                     creeper.setPowered(true);
                 }

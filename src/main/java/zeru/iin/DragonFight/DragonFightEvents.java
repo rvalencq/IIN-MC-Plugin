@@ -38,19 +38,27 @@ public class DragonFightEvents implements Listener {
     @EventHandler
     public void onPhaseChange(EnderDragonChangePhaseEvent event) {
         EnderDragon.Phase newPhase = event.getNewPhase();
-        if (newPhase == EnderDragon.Phase.LAND_ON_PORTAL) {
-            CustomMobSpawner endBrute = CustomMobs.createEndBrute(8, 2);
-            endBrute.spawn();
-            // Bukkit.broadcastMessage("LAND_ON_PORTAL");
-        } else if (newPhase == EnderDragon.Phase.LEAVE_PORTAL) {
-            CustomMobSpawner endGhast = CustomMobs.createEndGhast(25, 5);
-            DragonFightUtils.blindnessAllPlayers();
-            // Bukkit.broadcastMessage("LEAVE_PORTAL");
-            endGhast.spawn();
-        } else if (newPhase == EnderDragon.Phase.HOVER) {
-            DragonFightUtils.blindnessAllPlayers();
-            CustomMobSpawner endVex = CustomMobs.createEndVex(15, 3);
-            endVex.spawn();
+        switch (newPhase) {
+            case LAND_ON_PORTAL -> {
+                // Bukkit.broadcastMessage("LAND_ON_PORTAL");
+            }
+            case LEAVE_PORTAL -> {
+                CustomMobSpawner endGhast = CustomMobs.createEndGhast(25, 5);
+                // DragonFightUtils.blindnessAllPlayers();
+                CustomMobSpawner endBrute = CustomMobs.createEndBrute(8, 2);
+                endBrute.spawn();
+                endGhast.spawn();
+
+                // Bukkit.broadcastMessage("LEAVE_PORTAL");
+            }
+            case HOVER -> {
+                // DragonFightUtils.blindnessAllPlayers();
+            }
+            case FLY_TO_PORTAL -> {
+                CustomMobSpawner endVex = CustomMobs.createEndVex(15, 3);
+                endVex.spawn();
+            }
+
         }
     }
 }

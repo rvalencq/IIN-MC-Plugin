@@ -3,7 +3,9 @@ package zeru.iin.DragonFight;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Player;
@@ -12,6 +14,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
 import java.util.HashMap;
 import java.util.List;
@@ -56,6 +60,11 @@ public class DragonDamageHandler implements Listener {
     public void onDragonDeath(EntityDeathEvent event) {
         if (!(event.getEntity() instanceof EnderDragon)) return;
 
+        Player killer = event.getEntity().getKiller();
+        if (killer != null) {
+            giveReward(killer, new ItemStack(Material.ELYTRA));
+        }
+        
         List<Map.Entry<UUID, Double>> top3 = dragonDamageMap.entrySet().stream()
                 .sorted(Map.Entry.<UUID, Double>comparingByValue().reversed())
                 .limit(3)
@@ -77,11 +86,42 @@ public class DragonDamageHandler implements Listener {
                         .append(Component.text((i + 1) + ". " + playerTop.getName()).color(NamedTextColor.WHITE))
                         .append(Component.text(" -> ").color(NamedTextColor.LIGHT_PURPLE))
                         .append(Component.text(String.format("%.1f", dmg))));
+
+                if (!playerTop.isOnline()) continue;
+
+                Player p = playerTop.getPlayer();
+
+                switch (i) {
+                    case 0 -> {
+                        ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+                        EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getItemMeta();
+                        meta.addStoredEnchant(Enchantment.UNBREAKING, 4, true);
+                        book.setItemMeta(meta);
+
+                        giveReward(p, new ItemStack(Material.NETHERITE_INGOT, 3));
+                        giveReward(p, new ItemStack(Material.ELYTRA));
+                        giveReward(p, book);
+                    }
+                    case 1 -> {
+                        giveReward(p, new ItemStack(Material.NETHERITE_INGOT, 3));
+                        giveReward(p, new ItemStack(Material.ELYTRA));
+                    }
+                    case 2 -> giveReward(p, new ItemStack(Material.NETHERITE_INGOT, 3));
+                }
             }
             player.sendMessage(Component.text("----------------------------").color(NamedTextColor.YELLOW));
+            player.sendMessage(Component.text("Recompensas Entregadas a los Mejores!"));
         }
 
         dragonDamageMap.clear();
+    }
+
+    private void giveReward(Player p, ItemStack item) {
+        if (p.getInventory().firstEmpty() == -1) {
+            p.getWorld().dropItemNaturally(p.getLocation(), item);
+        } else {
+            p.getInventory().addItem(item);
+        }
     }
 }
 
