@@ -34,7 +34,7 @@ public class DragonFightUtils {
     }
 
     public static void crystalBreakPunishment() {
-        Bukkit.broadcast(Component.text("Has sido cegado por romper un cristal del End...").color(NamedTextColor.DARK_GRAY).decorate(TextDecoration.BOLD));
+        // Bukkit.broadcast(Component.text("Has sido cegado por romper un cristal del End...").color(NamedTextColor.DARK_GRAY).decorate(TextDecoration.BOLD));
         blindnessAllPlayers();
         spawnMobsWhenCrystalBreak();
     }
@@ -47,15 +47,14 @@ public class DragonFightUtils {
     }
 
     public static void spawnMobsWhenCrystalBreak() {
-        CustomMobSpawner endCreeper = CustomMobs.createEndCreeper(30, 5);
-        CustomMobSpawner endBlaze = CustomMobs.createEndBlaze(30, 6);
-        CustomMobSpawner endSkeleton = CustomMobs.createEndSkeleton(40, 8);
+        CustomMobSpawner endCreeper = CustomMobs.createEndCreeper(21, 3);
+        CustomMobSpawner endBlaze = CustomMobs.createEndBlaze(20, 6);
+        CustomMobSpawner endSkeleton = CustomMobs.createEndSkeleton(30, 6);
 
         endCreeper.spawn();
         endBlaze.spawn();
         endSkeleton.spawn();
     }
-
 
 
     public boolean allCrystalBreak(World end) {

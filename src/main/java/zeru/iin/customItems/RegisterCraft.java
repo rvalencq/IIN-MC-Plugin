@@ -1,10 +1,13 @@
 package zeru.iin.customItems;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import org.bukkit.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 import zeru.iin.IIN;
 
 public class RegisterCraft {
@@ -17,6 +20,7 @@ public class RegisterCraft {
 
     public void registerAll() {
         registerMace3x3();
+        registerMinerPotion();
     }
 
     private void registerMace3x3() {
@@ -33,4 +37,30 @@ public class RegisterCraft {
 
         Bukkit.addRecipe(recipe);
     }
+
+    private void registerMinerPotion() {
+        ItemStack potion = new ItemStack(Material.POTION);
+        PotionMeta potionMeta = (PotionMeta) potion.getItemMeta();
+        potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HASTE, 9600, 7), true);
+        potionMeta.setColor(Color.YELLOW);
+        potionMeta.setDisplayName(ChatColor.GOLD + "Miner Potion");
+        potion.setItemMeta(potionMeta);
+
+        ItemStack strengthPotion = new ItemStack(Material.POTION);
+        PotionMeta strengthPotionItemMeta = (PotionMeta) strengthPotion.getItemMeta();
+        strengthPotionItemMeta.setBasePotionType(PotionType.LONG_STRENGTH);
+        strengthPotion.setItemMeta(strengthPotionItemMeta);
+
+        ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(plugin, "minerPotion"), potion);
+        recipe.shape("ABA", "CDE", "AFA");
+        recipe.setIngredient('A', Material.NETHER_WART);
+        recipe.setIngredient('B', Material.DIAMOND_BLOCK);
+        recipe.setIngredient('C', Material.IRON_BLOCK);
+        recipe.setIngredient('D', new RecipeChoice.ExactChoice(strengthPotion));
+        recipe.setIngredient('E', Material.GOLD_BLOCK);
+        recipe.setIngredient('F', Material.COPPER_BLOCK);
+
+        Bukkit.addRecipe(recipe);
+    }
+
 }

@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.PiglinBrute;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
@@ -149,8 +150,11 @@ public class CustomMobs {
                     mob.getEquipment().setLeggingsDropChance(0f);
                     mob.getEquipment().setBoots(new ItemStack(Material.NETHERITE_BOOTS));
                     mob.getEquipment().setBootsDropChance(0f);
-                    mob.getEquipment().setItemInMainHand(new ItemStack(Material.NETHERITE_AXE));
+                    mob.getEquipment().setItemInMainHand(new ItemStack(Material.IRON_AXE));
                     mob.getEquipment().setItemInMainHandDropChance(0f);
+                    if (mob instanceof PiglinBrute brute) {
+                        brute.setImmuneToZombification(true);
+                    }
                 }
         );
     }

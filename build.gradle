@@ -4,11 +4,16 @@ plugins {
 }
 
 group = 'zeru'
-version = '1.5'
+version = '1.5.1'
 
 jar {
     archiveBaseName.set("IIN")
     archiveClassifier.set("")
+    manifest {
+        attributes(
+                "paperweight-mappings-namespace": "mojang"
+        )
+    }
 }
 
 

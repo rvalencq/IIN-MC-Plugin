@@ -66,7 +66,7 @@ public class DragonDamageHandler implements Listener {
             player.sendMessage(Component.text()
                     .append(Component.text("🏆")
                             .color(NamedTextColor.YELLOW))
-                    .append(Component.text(" Top daño:")
+                    .append(Component.text(" Top Damage:")
                             .color(NamedTextColor.AQUA)));
             for (int i = 0; i < top3.size(); i++) {
                 UUID uuid = top3.get(i).getKey();

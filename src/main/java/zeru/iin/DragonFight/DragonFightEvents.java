@@ -39,7 +39,7 @@ public class DragonFightEvents implements Listener {
     public void onPhaseChange(EnderDragonChangePhaseEvent event) {
         EnderDragon.Phase newPhase = event.getNewPhase();
         if (newPhase == EnderDragon.Phase.LAND_ON_PORTAL) {
-            CustomMobSpawner endBrute = CustomMobs.createEndBrute(15, 3);
+            CustomMobSpawner endBrute = CustomMobs.createEndBrute(8, 2);
             endBrute.spawn();
             // Bukkit.broadcastMessage("LAND_ON_PORTAL");
         } else if (newPhase == EnderDragon.Phase.LEAVE_PORTAL) {

@@ -38,6 +38,19 @@ public class Mace3x3Event implements Listener {
         ItemStack[] matrix = inv.getMatrix();
 
         if (matrix.length != 9) return;
+        if (matrix[4] == null || matrix[4].getType() != Material.NETHERITE_PICKAXE) {
+            return;
+        }
+        boolean recipe =
+                isRecipe(matrix[0], Material.GOLD_BLOCK, 32) ||
+                        isRecipe(matrix[1], Material.CRYING_OBSIDIAN, 64) ||
+                        isRecipe(matrix[2], Material.GOLD_BLOCK, 32) ||
+                        isRecipe(matrix[3], Material.DEEPSLATE_EMERALD_ORE, 3) ||
+                        isRecipe(matrix[4], Material.NETHERITE_PICKAXE, 1) ||
+                        isRecipe(matrix[5], Material.DEEPSLATE_EMERALD_ORE, 3) ||
+                        isRecipe(matrix[6], Material.OXIDIZED_COPPER, 32) ||
+                        isRecipe(matrix[7], Material.NETHERITE_BLOCK, 1) ||
+                        isRecipe(matrix[8], Material.OXIDIZED_COPPER, 32);
 
         boolean correct =
                 is(matrix[0], Material.GOLD_BLOCK, 32) &&
@@ -50,7 +63,9 @@ public class Mace3x3Event implements Listener {
                         is(matrix[7], Material.NETHERITE_BLOCK, 1) &&
                         is(matrix[8], Material.OXIDIZED_COPPER, 32);
 
-        if (correct) {
+        if (recipe) {
+            inv.setResult(null);
+        } else if (correct) {
             inv.setResult(creator.createItem(CustomItemType.MACE_3X3));
         }
     }
@@ -96,7 +111,6 @@ public class Mace3x3Event implements Listener {
                     amountToRemove--; // Si, minecraft resta ya uno por el crafteo, chupala minecraft
                     item.setAmount(item.getAmount() - amountToRemove);
                 }
-
                 inv.setMatrix(updatedMatrix);
             }
         }.runTask(plugin);
@@ -104,6 +118,10 @@ public class Mace3x3Event implements Listener {
 
     private boolean is(ItemStack item, Material expected, int amount) {
         return item != null && item.getType() == expected && item.getAmount() >= amount;
+    }
+
+    private boolean isRecipe(ItemStack item, Material expected, int requiredAmount) {
+        return item.getType() == expected && item.getAmount() < requiredAmount;
     }
 
     /* Sin Uso (Quien sabe cuando lo complete)
@@ -144,7 +162,7 @@ public class Mace3x3Event implements Listener {
         }
     }
 
-    public void mine3x3Area(Player player, Block centralBlock, ItemStack tool, Material tipoPermitido) {
+    public void mine3x3Area(Player player, Block centralBlock, ItemStack tool, Material enableType) {
         BlockFace facing = getFacing(player);
         boolean isVertical = isLookingVertical(player);
         Block center = centralBlock;
@@ -160,7 +178,7 @@ public class Mace3x3Event implements Listener {
                             : center.getRelative(dx, dy, 0);
 
                     if (target.equals(center)) continue;
-                    if (target.getType() != tipoPermitido) continue;
+                    if (target.getType() != enableType) continue;
                     if (!canBreak(tool, target)) continue;
 
                     boolean success = target.breakNaturally(tool);
