@@ -1,7 +1,8 @@
-package zeru.iin.DragonFight;
+package zeru.iin.dragonFight;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -71,7 +72,13 @@ public class DragonDamageHandler implements Listener {
                 .toList();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.sendMessage(Component.text("----------------------------").color(NamedTextColor.YELLOW));
+            player.sendMessage(Component.text("-------------------------------------").color(NamedTextColor.YELLOW));
+            if (killer != null) {
+                player.sendMessage(Component.text("¡El Dragón ha Muerto a Manos de " + killer.getName() + "!"));
+            } else {
+                player.sendMessage(Component.text("¡El Dragón ha Muerto!"));
+            }
+            player.sendMessage(Component.text("-------------------------------------").color(NamedTextColor.YELLOW));
             player.sendMessage(Component.text()
                     .append(Component.text("🏆")
                             .color(NamedTextColor.YELLOW))
@@ -81,11 +88,12 @@ public class DragonDamageHandler implements Listener {
                 UUID uuid = top3.get(i).getKey();
                 double dmg = top3.get(i).getValue();
                 OfflinePlayer playerTop = Bukkit.getOfflinePlayer(uuid);
-
                 player.sendMessage(Component.text()
-                        .append(Component.text((i + 1) + ". " + playerTop.getName()).color(NamedTextColor.WHITE))
-                        .append(Component.text(" -> ").color(NamedTextColor.LIGHT_PURPLE))
-                        .append(Component.text(String.format("%.1f", dmg))));
+                        .append(Component.text((i + 1) + ". ").color(NamedTextColor.WHITE))
+                        .append(Component.text(playerTop.getName()).color(NamedTextColor.WHITE))
+                        .append(Component.text(" -> ").color(NamedTextColor.LIGHT_PURPLE).decorate(TextDecoration.BOLD))
+                        .append(Component.text(String.format("%.1f", dmg)))
+                        .append(Component.text(" dmg")));
 
                 if (!playerTop.isOnline()) continue;
 
@@ -109,8 +117,9 @@ public class DragonDamageHandler implements Listener {
                     case 2 -> giveReward(p, new ItemStack(Material.NETHERITE_INGOT, 3));
                 }
             }
-            player.sendMessage(Component.text("----------------------------").color(NamedTextColor.YELLOW));
+            player.sendMessage(Component.text("-------------------------------------").color(NamedTextColor.YELLOW));
             player.sendMessage(Component.text("Recompensas Entregadas a los Mejores!"));
+            player.sendMessage(Component.text("-------------------------------------").color(NamedTextColor.YELLOW));
         }
 
         dragonDamageMap.clear();

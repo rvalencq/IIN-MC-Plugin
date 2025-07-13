@@ -2,6 +2,7 @@ package zeru.iin.commands;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -32,35 +33,35 @@ public class MinedCommand implements CommandExecutor, TabCompleter {
         archiveManager.saveFile();
         PlayerStats stats = archiveManager.getData().get(uuid);
         if (stats != null) {
-            sender.sendMessage(Component.text("----------------------------").color(NamedTextColor.YELLOW));
+            sender.sendMessage(Component.text("-------------------------------").color(NamedTextColor.YELLOW));
             sender.sendMessage(Component.text()
                     .append(Component.text("Tus Bloques Minados "))
-                    .append(Component.text("-> ").color(NamedTextColor.LIGHT_PURPLE))
+                    .append(Component.text("-> ").color(NamedTextColor.LIGHT_PURPLE).decorate(TextDecoration.BOLD))
                     .append(Component.text(stats.getMinedBlocks())));
         }
-        sender.sendMessage(Component.text("----------------------------").color(NamedTextColor.YELLOW));
+        sender.sendMessage(Component.text("-------------------------------").color(NamedTextColor.YELLOW));
         sender.sendMessage(Component.text()
                 .append(Component.text("🏆")
                         .color(NamedTextColor.YELLOW))
-                .append(Component.text(" Top enfermitos del servidor:")
+                .append(Component.text(" Top Bloques Minados del Servidor:")
                         .color(NamedTextColor.AQUA)));
-        sender.sendMessage(Component.text("----------------------------").color(NamedTextColor.YELLOW));
+        sender.sendMessage(Component.text("-------------------------------").color(NamedTextColor.YELLOW));
 
         AtomicInteger pos = new AtomicInteger(1);
         archiveManager.getData().entrySet().stream()
                 .sorted(Map.Entry.<UUID, PlayerStats>comparingByValue(
                         Comparator.comparingInt(PlayerStats::getMinedBlocks)).reversed())
-                .limit(10)
+                .limit(5)
                 .forEach(entry -> {
                     OfflinePlayer p = Bukkit.getOfflinePlayer(entry.getKey());
                     PlayerStats stat = entry.getValue();
                     int index = pos.getAndIncrement();
                     sender.sendMessage(Component.text()
                             .append(Component.text(index + ". " + p.getName()).color(NamedTextColor.WHITE))
-                            .append(Component.text(" -> ").color(NamedTextColor.LIGHT_PURPLE))
+                            .append(Component.text(" -> ").color(NamedTextColor.LIGHT_PURPLE).decorate(TextDecoration.BOLD))
                             .append(Component.text(stat.getMinedBlocks())));
                 });
-        sender.sendMessage(Component.text("----------------------------").color(NamedTextColor.YELLOW));
+        sender.sendMessage(Component.text("-------------------------------").color(NamedTextColor.YELLOW));
 
         return true;
     }

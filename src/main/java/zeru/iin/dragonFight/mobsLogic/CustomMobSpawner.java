@@ -1,4 +1,4 @@
-package zeru.iin.DragonFight.mobsLogic;
+package zeru.iin.dragonFight.mobsLogic;
 
 import org.bukkit.*;
 import org.bukkit.block.Block;

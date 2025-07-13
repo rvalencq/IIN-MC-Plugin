@@ -1,4 +1,4 @@
-package zeru.iin.DragonFight;
+package zeru.iin.dragonFight;
 
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;

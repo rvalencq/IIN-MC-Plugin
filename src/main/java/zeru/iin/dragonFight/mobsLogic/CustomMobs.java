@@ -1,4 +1,4 @@
-package zeru.iin.DragonFight.mobsLogic;
+package zeru.iin.dragonFight.mobsLogic;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -56,7 +56,7 @@ public class CustomMobs {
                 "endCreeper",
                 maxTotal,
                 perPlayer,
-                35,
+                40,
                 25,
                 mob -> {
                     mob.setCustomName("§b§lEnder Creeper");
@@ -89,7 +89,7 @@ public class CustomMobs {
                 "endSkeleton",
                 maxTotal,
                 perPlayer,
-                35,
+                40,
                 25,
                 mob -> {
                     mob.setCustomName("§7§lEnder Skeleton");
@@ -118,7 +118,7 @@ public class CustomMobs {
                 "endSkeleton",
                 maxTotal,
                 perPlayer,
-                35,
+                40,
                 25,
                 mob -> {
                     mob.setCustomName("§7§lEnder Vex");

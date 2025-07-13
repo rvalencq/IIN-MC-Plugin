@@ -1,5 +1,5 @@
 name: IIN
-version: '1.2'
+version: '1.3'
 main: zeru.iin.IIN
 api-version: '1.21'
 authors: [Zeru]
@@ -22,3 +22,7 @@ commands:
   maintenance:
     description: Activa/Desactiva el mantenimiento
     permission: iin.maintenance
+
+  spawnvillager:
+    description: Spawnea aldenos timba
+    permission: iin.timba

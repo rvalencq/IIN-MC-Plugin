@@ -5,8 +5,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 import zeru.iin.IIN;
 
@@ -39,12 +37,7 @@ public class RegisterCraft {
     }
 
     private void registerMinerPotion() {
-        ItemStack potion = new ItemStack(Material.POTION);
-        PotionMeta potionMeta = (PotionMeta) potion.getItemMeta();
-        potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HASTE, 9600, 7), true);
-        potionMeta.setColor(Color.YELLOW);
-        potionMeta.setDisplayName(ChatColor.GOLD + "Miner Potion");
-        potion.setItemMeta(potionMeta);
+        ItemStack potion = creator.createItem(CustomItemType.MINER_POTION);
 
         ItemStack strengthPotion = new ItemStack(Material.POTION);
         PotionMeta strengthPotionItemMeta = (PotionMeta) strengthPotion.getItemMeta();

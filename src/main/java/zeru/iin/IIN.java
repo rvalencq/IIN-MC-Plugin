@@ -4,25 +4,21 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import zeru.iin.DragonFight.CustomDragonSpawn;
-import zeru.iin.DragonFight.DragonFightEvents;
-import zeru.iin.DragonFight.DragonDamageHandler;
-import zeru.iin.DragonFight.mobsLogic.CustomMobsDrops;
-import zeru.iin.commands.CustomItemCommand;
-import zeru.iin.commands.MaintenanceMode;
-import zeru.iin.commands.MinedCommand;
-import zeru.iin.commands.PlayedCommand;
+import zeru.iin.commands.*;
 import zeru.iin.customItems.CustomItemCreator;
 import zeru.iin.customItems.RegisterCraft;
 import zeru.iin.customItems.events.Mace3x3Event;
+import zeru.iin.dragonFight.CustomDragonSpawn;
+import zeru.iin.dragonFight.DragonDamageHandler;
+import zeru.iin.dragonFight.DragonFightEvents;
+import zeru.iin.dragonFight.mobsLogic.CustomMobsDrops;
 import zeru.iin.managers.ArchiveManager;
+import zeru.iin.timba.VillagersTimbaManager;
 
 public final class IIN extends JavaPlugin {
     private ArchiveManager archiveManager;
     private boolean maintenanceMode = false;
     private static IIN plugin;
-
-
 
     @Override
     public void onEnable() {
@@ -40,9 +36,11 @@ public final class IIN extends JavaPlugin {
         CustomItemCreator creator = new CustomItemCreator(this);
         RegisterCraft registerCraft = new RegisterCraft(this, creator);
         CustomItemCommand customItemCommand = new CustomItemCommand(creator);
+        // VillagersTimbaManager villagersTimbaManager = new VillagersTimbaManager(creator);
         MaintenanceMode maintenanceMode = new MaintenanceMode(this);
         PlayedCommand playedCommand = new PlayedCommand(archiveManager);
         MinedCommand minedCommand = new MinedCommand(archiveManager);
+        // TimbaVillagerSpawnCommand timbaVillagerSpawnCommand = new TimbaVillagerSpawnCommand(villagersTimbaManager);
 
         // Events
         registerCraft.registerAll();
@@ -69,6 +67,9 @@ public final class IIN extends JavaPlugin {
         getCommand("maintenance").setExecutor(maintenanceMode);
         this.getCommand("maintenance").setTabCompleter(maintenanceMode);
 
+        // getCommand("spawnvillager").setExecutor(timbaVillagerSpawnCommand);
+        // this.getCommand("spawnvillager").setTabCompleter(timbaVillagerSpawnCommand);
+
 
         // Runnable autosave
         new BukkitRunnable() {
@@ -78,7 +79,7 @@ public final class IIN extends JavaPlugin {
                     archiveManager.updatePlayerData(player);
                 }
                 archiveManager.saveFile();
-                Bukkit.getLogger().info("Tiempo guardado correctamente");
+                Bukkit.getLogger().info("Datos de los jugadores guardados correctamente");
             }
         }.runTaskTimer(this, 0L, 15 * 60 * 20L);
 

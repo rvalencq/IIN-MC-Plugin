@@ -1,5 +1,8 @@
-package zeru.iin.DragonFight;
+package zeru.iin.dragonFight;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.*;
 import org.bukkit.boss.DragonBattle;
 import org.bukkit.entity.*;
@@ -7,8 +10,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EnderDragonChangePhaseEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import zeru.iin.DragonFight.mobsLogic.CustomMobSpawner;
-import zeru.iin.DragonFight.mobsLogic.CustomMobs;
+import zeru.iin.dragonFight.mobsLogic.CustomMobSpawner;
+import zeru.iin.dragonFight.mobsLogic.CustomMobs;
 
 public class DragonFightEvents implements Listener {
     @EventHandler
@@ -43,12 +46,12 @@ public class DragonFightEvents implements Listener {
                 // Bukkit.broadcastMessage("LAND_ON_PORTAL");
             }
             case LEAVE_PORTAL -> {
-                CustomMobSpawner endGhast = CustomMobs.createEndGhast(25, 5);
                 // DragonFightUtils.blindnessAllPlayers();
+                CustomMobSpawner endGhast = CustomMobs.createEndGhast(20, 5);
                 CustomMobSpawner endBrute = CustomMobs.createEndBrute(8, 2);
                 endBrute.spawn();
                 endGhast.spawn();
-
+                Bukkit.broadcast(Component.text("¡Protéjanme, mis súbditos!").color(NamedTextColor.DARK_GRAY).decorate(TextDecoration.BOLD));
                 // Bukkit.broadcastMessage("LEAVE_PORTAL");
             }
             case HOVER -> {

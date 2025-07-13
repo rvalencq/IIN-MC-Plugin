@@ -5,18 +5,17 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import zeru.iin.customItems.CustomItemCreator;
 import zeru.iin.customItems.CustomItemType;
+import zeru.iin.timba.VillagersTimbaManager;
 
 import java.util.List;
 
-public class CustomItemCommand implements CommandExecutor, TabCompleter {
-    private final CustomItemCreator creator;
-    public CustomItemCommand(CustomItemCreator creator) {
-        this.creator = creator;
+public class TimbaVillagerSpawnCommand implements CommandExecutor, TabCompleter {
+    private final VillagersTimbaManager timbaVillager;
+    public TimbaVillagerSpawnCommand(VillagersTimbaManager timbaVillager) {
+        this.timbaVillager = timbaVillager;
     }
 
     @Override
@@ -25,9 +24,8 @@ public class CustomItemCommand implements CommandExecutor, TabCompleter {
         if (args.length == 0) return false;
 
         switch (args[0]) {
-            case "mace" -> player.getInventory().addItem(creator.createItem(CustomItemType.MACE_3X3));
-            case "minerPotion" -> player.getInventory().addItem(creator.createItem(CustomItemType.MINER_POTION));
-            case "timbaCoin" -> player.getInventory().addItem(creator.createItem(CustomItemType.TIMBA_COIN));
+            case "getter" -> timbaVillager.villagerGetterTimba(player);
+            case "seller" -> timbaVillager.villagerSellerTimba(player);
         }
 
         return true;
@@ -37,7 +35,7 @@ public class CustomItemCommand implements CommandExecutor, TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 1) {
-            return List.of("mace", "minerPotion", "timbaCoin");
+            return List.of("getter", "seller");
         }
         return List.of();
     }

@@ -73,7 +73,7 @@ public class GeneralEvents implements Listener {
         int maxVisible = Bukkit.getMaxPlayers() - reservedSpaces;
 
         String serverTitle = ChatColor.AQUA + "§lIIN " + "§r§fBICHOS " + ChatColor.LIGHT_PURPLE + "§l2025§r\n";
-        String eventTitle = "§l§e>>> " + "§r§fInicio del Servidor" + "§l§e <<<";
+        String eventTitle = "§l§e>>> " + "§r§fTHE END" + "§l§e <<<";
         String maintenanceTitle = "§l§e>>> " + "§r§6 En Mantenimiento" + "§l§e <<<";
 
         if (plugin.isMaintenanceMode()) {

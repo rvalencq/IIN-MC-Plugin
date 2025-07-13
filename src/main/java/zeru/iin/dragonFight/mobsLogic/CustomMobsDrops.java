@@ -1,4 +1,4 @@
-package zeru.iin.DragonFight.mobsLogic;
+package zeru.iin.dragonFight.mobsLogic;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

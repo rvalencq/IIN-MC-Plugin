@@ -1,5 +1,8 @@
-package zeru.iin.DragonFight;
+package zeru.iin.dragonFight;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -8,8 +11,8 @@ import org.bukkit.entity.*;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
-import zeru.iin.DragonFight.mobsLogic.CustomMobSpawner;
-import zeru.iin.DragonFight.mobsLogic.CustomMobs;
+import zeru.iin.dragonFight.mobsLogic.CustomMobSpawner;
+import zeru.iin.dragonFight.mobsLogic.CustomMobs;
 
 public class DragonFightUtils {
     public static void throwFireball(Location objective) {
@@ -33,6 +36,7 @@ public class DragonFightUtils {
     public static void crystalBreakPunishment() {
         // Bukkit.broadcast(Component.text("Has sido cegado por romper un cristal del End...").color(NamedTextColor.DARK_GRAY).decorate(TextDecoration.BOLD));
         // blindnessAllPlayers();
+        Bukkit.broadcast(Component.text("¡Han sido castigados por romper un Cristal del End!").color(NamedTextColor.DARK_GRAY).decorate(TextDecoration.BOLD));
         spawnMobsWhenCrystalBreak();
     }
 
@@ -44,15 +48,14 @@ public class DragonFightUtils {
     }
 
     public static void spawnMobsWhenCrystalBreak() {
-        CustomMobSpawner endCreeper = CustomMobs.createEndCreeper(21, 3);
-        CustomMobSpawner endBlaze = CustomMobs.createEndBlaze(20, 6);
-        CustomMobSpawner endSkeleton = CustomMobs.createEndSkeleton(30, 6);
+        CustomMobSpawner endCreeper = CustomMobs.createEndCreeper(20, 5);
+        CustomMobSpawner endBlaze = CustomMobs.createEndBlaze(24, 6);
+        CustomMobSpawner endSkeleton = CustomMobs.createEndSkeleton(40, 8);
 
         endCreeper.spawn();
         endBlaze.spawn();
         endSkeleton.spawn();
     }
-
 
     public boolean allCrystalBreak(World end) {
         return end.getEntitiesByClass(EnderCrystal.class).isEmpty();
