@@ -7,15 +7,14 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import zeru.iin.customItems.CustomItemType;
-import zeru.iin.timba.VillagersTimbaManager;
+import zeru.iin.timba.VillagersManager;
 
 import java.util.List;
 
-public class TimbaVillagerSpawnCommand implements CommandExecutor, TabCompleter {
-    private final VillagersTimbaManager timbaVillager;
-    public TimbaVillagerSpawnCommand(VillagersTimbaManager timbaVillager) {
-        this.timbaVillager = timbaVillager;
+public class VillagersSpawnCommand implements CommandExecutor, TabCompleter {
+    private final VillagersManager villagersManager;
+    public VillagersSpawnCommand(VillagersManager villagersManager) {
+        this.villagersManager = villagersManager;
     }
 
     @Override
@@ -24,8 +23,9 @@ public class TimbaVillagerSpawnCommand implements CommandExecutor, TabCompleter 
         if (args.length == 0) return false;
 
         switch (args[0]) {
-            case "getter" -> timbaVillager.villagerGetterTimba(player);
-            case "seller" -> timbaVillager.villagerSellerTimba(player);
+            case "getter" -> villagersManager.villagerGetterTimba(player);
+            case "seller" -> villagersManager.villagerSellerTimba(player);
+            case "keySeller" -> villagersManager.villagerKeySeller(player);
         }
 
         return true;
@@ -35,7 +35,7 @@ public class TimbaVillagerSpawnCommand implements CommandExecutor, TabCompleter 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 1) {
-            return List.of("getter", "seller");
+            return List.of("getter", "seller", "keySeller");
         }
         return List.of();
     }

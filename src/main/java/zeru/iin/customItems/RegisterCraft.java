@@ -18,7 +18,7 @@ public class RegisterCraft {
 
     public void registerAll() {
         registerMace3x3();
-        registerMinerPotion();
+        // registerMinerPotion();
     }
 
     private void registerMace3x3() {

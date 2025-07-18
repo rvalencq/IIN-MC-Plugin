@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class DragonDamageHandler implements Listener {
     private final Map<UUID, Double> dragonDamageMap = new HashMap<>();
@@ -94,32 +95,37 @@ public class DragonDamageHandler implements Listener {
                         .append(Component.text(" -> ").color(NamedTextColor.LIGHT_PURPLE).decorate(TextDecoration.BOLD))
                         .append(Component.text(String.format("%.1f", dmg)))
                         .append(Component.text(" dmg")));
-
-                if (!playerTop.isOnline()) continue;
-
-                Player p = playerTop.getPlayer();
-
-                switch (i) {
-                    case 0 -> {
-                        ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
-                        EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getItemMeta();
-                        meta.addStoredEnchant(Enchantment.UNBREAKING, 4, true);
-                        book.setItemMeta(meta);
-
-                        giveReward(p, new ItemStack(Material.NETHERITE_INGOT, 3));
-                        giveReward(p, new ItemStack(Material.ELYTRA));
-                        giveReward(p, book);
-                    }
-                    case 1 -> {
-                        giveReward(p, new ItemStack(Material.NETHERITE_INGOT, 3));
-                        giveReward(p, new ItemStack(Material.ELYTRA));
-                    }
-                    case 2 -> giveReward(p, new ItemStack(Material.NETHERITE_INGOT, 3));
-                }
             }
             player.sendMessage(Component.text("-------------------------------------").color(NamedTextColor.YELLOW));
             player.sendMessage(Component.text("Recompensas Entregadas a los Mejores!"));
             player.sendMessage(Component.text("-------------------------------------").color(NamedTextColor.YELLOW));
+        }
+
+        for (int i = 0; i < top3.size(); i++) {
+            UUID uuid = top3.get(i).getKey();
+            OfflinePlayer playerTop = Bukkit.getOfflinePlayer(uuid);
+            if (!playerTop.isOnline()) continue;
+
+            Player p = playerTop.getPlayer();
+            if (p == null) continue;
+            int randomAmount = ThreadLocalRandom.current().nextInt(1, 4);
+            switch (i) {
+                case 0 -> {
+                    ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+                    EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getItemMeta();
+                    meta.addStoredEnchant(Enchantment.UNBREAKING, 4, true);
+                    book.setItemMeta(meta);
+
+                    giveReward(p, new ItemStack(Material.NETHERITE_INGOT, randomAmount));
+                    giveReward(p, new ItemStack(Material.ELYTRA));
+                    giveReward(p, book);
+                }
+                case 1 -> {
+                    giveReward(p, new ItemStack(Material.NETHERITE_INGOT, randomAmount));
+                    giveReward(p, new ItemStack(Material.ELYTRA));
+                }
+                case 2 -> giveReward(p, new ItemStack(Material.NETHERITE_INGOT, randomAmount));
+            }
         }
 
         dragonDamageMap.clear();

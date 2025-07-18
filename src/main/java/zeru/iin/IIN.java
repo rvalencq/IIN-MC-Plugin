@@ -13,7 +13,7 @@ import zeru.iin.dragonFight.DragonDamageHandler;
 import zeru.iin.dragonFight.DragonFightEvents;
 import zeru.iin.dragonFight.mobsLogic.CustomMobsDrops;
 import zeru.iin.managers.ArchiveManager;
-import zeru.iin.timba.VillagersTimbaManager;
+import zeru.iin.timba.VillagersManager;
 
 public final class IIN extends JavaPlugin {
     private ArchiveManager archiveManager;
@@ -36,11 +36,12 @@ public final class IIN extends JavaPlugin {
         CustomItemCreator creator = new CustomItemCreator(this);
         RegisterCraft registerCraft = new RegisterCraft(this, creator);
         CustomItemCommand customItemCommand = new CustomItemCommand(creator);
-        // VillagersTimbaManager villagersTimbaManager = new VillagersTimbaManager(creator);
+        VillagersManager villagersManager = new VillagersManager(creator);
         MaintenanceMode maintenanceMode = new MaintenanceMode(this);
         PlayedCommand playedCommand = new PlayedCommand(archiveManager);
         MinedCommand minedCommand = new MinedCommand(archiveManager);
-        // TimbaVillagerSpawnCommand timbaVillagerSpawnCommand = new TimbaVillagerSpawnCommand(villagersTimbaManager);
+        VillagersSpawnCommand villagersSpawnCommand = new VillagersSpawnCommand(villagersManager);
+        LootBoxCommand lootBoxCommand = new LootBoxCommand(creator);
 
         // Events
         registerCraft.registerAll();
@@ -67,8 +68,11 @@ public final class IIN extends JavaPlugin {
         getCommand("maintenance").setExecutor(maintenanceMode);
         this.getCommand("maintenance").setTabCompleter(maintenanceMode);
 
-        // getCommand("spawnvillager").setExecutor(timbaVillagerSpawnCommand);
-        // this.getCommand("spawnvillager").setTabCompleter(timbaVillagerSpawnCommand);
+        getCommand("spawnvillager").setExecutor(villagersSpawnCommand);
+        this.getCommand("spawnvillager").setTabCompleter(villagersSpawnCommand);
+
+        getCommand("lootbox").setExecutor(lootBoxCommand);
+        this.getCommand("lootbox").setTabCompleter(lootBoxCommand);
 
 
         // Runnable autosave

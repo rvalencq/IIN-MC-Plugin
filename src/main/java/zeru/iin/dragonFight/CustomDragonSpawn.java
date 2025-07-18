@@ -1,5 +1,7 @@
 package zeru.iin.dragonFight;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EnderDragon;
@@ -19,13 +21,14 @@ public class CustomDragonSpawn implements Listener {
     public void onDragonSpawn(EntitySpawnEvent event) {
         if (event.getEntityType() == EntityType.ENDER_DRAGON) {
             EnderDragon dragon = (EnderDragon) event.getEntity();
-            dragon.setCustomName("§5Ascended Ender Dragon");
-            dragon.getAttribute(Attribute.MAX_HEALTH).setBaseValue(1500.0);
+            int playersEnd = Bukkit.getWorld("world_the_end").getPlayers().size();
+            float baseHealth = (200*playersEnd) + 500;
+            dragon.customName(Component.text("Ascended Ender Dragon").color(NamedTextColor.LIGHT_PURPLE));
+            dragon.getAttribute(Attribute.MAX_HEALTH).setBaseValue(baseHealth);
 
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
                 if (dragon.isValid()) {
-                    double maxHealth = dragon.getAttribute(Attribute.MAX_HEALTH).getValue();
-                    dragon.heal(maxHealth);
+                    dragon.heal(baseHealth);
                 }
             }, 1L);
         }

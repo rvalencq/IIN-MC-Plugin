@@ -34,6 +34,22 @@ public enum CustomItemType {
             Map.of(),
             List.of(),
             null
+    ),
+    LOOTBOX_PREMIUM_KEY(
+            "lootBoxPremiumKey",
+            Material.OMINOUS_TRIAL_KEY,
+            ChatColor.AQUA + "LootBox Premium Key",
+            Map.of(),
+            List.of(),
+            null
+    ),
+    LOOTBOX_STANDARD_KEY(
+            "lootBoxStandardKey",
+            Material.TRIAL_KEY,
+            ChatColor.YELLOW + "LootBox Standard Key",
+            Map.of(),
+            List.of(),
+            null
     );
 
     private final String id;

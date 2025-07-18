@@ -4,14 +4,22 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.ServerListPingEvent;
+import org.bukkit.inventory.AnvilInventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import zeru.iin.managers.ArchiveManager;
+
+import java.util.Map;
 
 public class GeneralEvents implements Listener {
     private final int reservedSpaces = 5;
@@ -83,5 +91,24 @@ public class GeneralEvents implements Listener {
         }
         event.setMaxPlayers(maxVisible);
         event.setMotd(centerText(serverTitle) + centerText(eventTitle));
+    }
+
+    // Anvil Validation
+    @EventHandler
+    public void onPrepareAnvil(PrepareAnvilEvent event) {
+        AnvilInventory inv = event.getInventory();
+        ItemStack first = inv.getItem(0); // ítem base
+        ItemStack second = inv.getItem(1); // libro encantado
+
+        if (first == null || second == null || second.getType() != Material.ENCHANTED_BOOK) return;
+
+        ItemStack result = first.clone();
+        Map<Enchantment, Integer> bookEnchants = ((EnchantmentStorageMeta) second.getItemMeta()).getStoredEnchants();
+
+        for (Map.Entry<Enchantment, Integer> entry : bookEnchants.entrySet()) {
+            result.addUnsafeEnchantment(entry.getKey(), entry.getValue());
+        }
+
+        event.setResult(result);
     }
 }

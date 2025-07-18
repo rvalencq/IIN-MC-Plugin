@@ -1,5 +1,6 @@
 package zeru.iin.timba;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -12,9 +13,9 @@ import zeru.iin.customItems.CustomItemType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VillagersTimbaManager {
+public class VillagersManager {
     private final CustomItemCreator creator;
-    public VillagersTimbaManager(CustomItemCreator creator) {
+    public VillagersManager(CustomItemCreator creator) {
         this.creator = creator;
     }
 
@@ -33,7 +34,7 @@ public class VillagersTimbaManager {
         List<MerchantRecipe> trades = new ArrayList<>();
         ItemStack timbaCoin = creator.createItem(CustomItemType.TIMBA_COIN);
 
-        timbaCoin.setAmount(3);
+        timbaCoin.setAmount(64);
         trades.add(createTrade(
                 timbaCoin,
                 List.of(
@@ -55,8 +56,11 @@ public class VillagersTimbaManager {
 
         Villager villager = (Villager) player.getWorld().spawnEntity(player.getLocation(), EntityType.VILLAGER);
         villager.setProfession(Villager.Profession.TOOLSMITH);
-        villager.setCustomName("Consigue Tus Monedas Aca");
+        villager.customName(Component.text("Consigue Tus Monedas Aca"));
         villager.setCustomNameVisible(true);
+        villager.setCollidable(false);
+        villager.setSilent(true);
+        villager.setPersistent(true);
         villager.setAI(false);
         villager.setInvulnerable(true);
         villager.setVillagerLevel(5);
@@ -67,7 +71,7 @@ public class VillagersTimbaManager {
         List<MerchantRecipe> trades = new ArrayList<>();
         ItemStack timbaCoin = creator.createItem(CustomItemType.TIMBA_COIN);
 
-        timbaCoin.setAmount(3);
+        timbaCoin.setAmount(64);
         trades.add(createTrade(
                 new ItemStack(Material.NETHERITE_CHESTPLATE),
                 List.of(
@@ -89,12 +93,48 @@ public class VillagersTimbaManager {
 
         Villager villager = (Villager) player.getWorld().spawnEntity(player.getLocation(), EntityType.VILLAGER);
         villager.setProfession(Villager.Profession.TOOLSMITH);
-        villager.setCustomName("Intercambia Tus Monedas Aca");
+        villager.customName(Component.text("Intercambia Tus Monedas Aca"));
         villager.setCustomNameVisible(true);
+        villager.setCollidable(false);
+        villager.setSilent(true);
+        villager.setPersistent(true);
         villager.setAI(false);
         villager.setInvulnerable(true);
         villager.setVillagerLevel(5);
         villager.setRecipes(recipes);
     }
 
+    private List<MerchantRecipe> getKeySellerTrades() {
+        List<MerchantRecipe> trades = new ArrayList<>();
+
+        trades.add(createTrade(
+                creator.createItem(CustomItemType.LOOTBOX_PREMIUM_KEY),
+                List.of(
+                        new ItemStack(Material.NETHERITE_INGOT))
+        ));
+
+        trades.add(createTrade(
+                creator.createItem(CustomItemType.LOOTBOX_STANDARD_KEY),
+                List.of(
+                        new ItemStack(Material.DIAMOND, 3))
+        ));
+
+        return trades;
+    }
+
+    public void villagerKeySeller(Player player) {
+        List<MerchantRecipe> recipes = getKeySellerTrades();
+
+        Villager villager = (Villager) player.getWorld().spawnEntity(player.getLocation(), EntityType.VILLAGER);
+        villager.setProfession(Villager.Profession.NITWIT);
+        villager.customName(Component.text("Consigue Tus Llaves Aca"));
+        villager.setCustomNameVisible(true);
+        villager.setCollidable(false);
+        villager.setSilent(true);
+        villager.setPersistent(true);
+        villager.setAI(false);
+        villager.setInvulnerable(true);
+        villager.setVillagerLevel(5);
+        villager.setRecipes(recipes);
+    }
 }
